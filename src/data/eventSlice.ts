@@ -1,6 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit/react";
+import { EventItem } from "../class/EventItem";
 
-const initialState: EventItem[] = [];
+const initialState: EventItem[] = [
+  new EventItem(
+    1,
+    "Hello",
+    "Description",
+    Date.now().toString(),
+    Date.now().toString()
+  ),
+];
 
 export const eventSlice = createSlice({
   name: "event",
