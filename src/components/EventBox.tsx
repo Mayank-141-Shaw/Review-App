@@ -53,6 +53,7 @@ export const EventBox: React.FC<EventBoxProps> = ({ event }) => {
         background: "linear-gradient( 90deg, #5f0f40, #310e68 )",
         color: "white",
         border: "1px solid white",
+        marginBottom: "0.5rem",
       }}
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>

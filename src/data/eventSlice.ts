@@ -4,7 +4,7 @@ import { EventItem } from "../class/EventItem";
 const initialState = [
   JSON.stringify(
     new EventItem(
-      1,
+      "1",
       "Revise Node.js interceptor",
       "node js connections",
       Date.now().toString(),
@@ -18,8 +18,7 @@ export const eventSlice = createSlice({
   initialState: { value: initialState },
   reducers: {
     addNewEvent: (state, action) => {
-      const data = JSON.parse(action.payload);
-      state.value = [...state.value, data];
+      state.value = [...state.value, action.payload];
     },
     updateEventById: (state, action) => {
       const data = JSON.parse(action.payload);

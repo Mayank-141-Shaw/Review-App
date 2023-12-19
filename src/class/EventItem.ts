@@ -1,12 +1,12 @@
 export class EventItem {
-  id: number = 0;
+  id: string = "";
   title: string = "";
   description: string = "";
   startDate: string;
   endDate: string;
 
   constructor(
-    id: number,
+    id: string,
     title: string,
     desc: string,
     start: string,
