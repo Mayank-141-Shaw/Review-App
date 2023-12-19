@@ -1,24 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { EventItem } from "../class/EventItem";
+import { VscTriangleDown } from "react-icons/vsc";
+
+import { MdModeEdit } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
+import { EditEventForm } from "./EditEventForm";
+import { useDispatch } from "react-redux";
+import { updateEventById } from "../data/eventSlice";
+import { AppDispatch } from "../data/store";
 
 export interface EventBox {
   event: EventItem;
 }
 
-export const EventBox: React.FC<EventItem> = (event) => {
+export const EventBox = ({ event }: EventBox) => {
+  const dispatch: AppDispatch = useDispatch();
+
   const [state, setState] = useState({
     open: false,
-    title: event.title,
-    id: event.id,
-    desc: event.description,
-    start: event.startDate,
-    end: event.endDate,
+    edit: false,
+    event: event,
   });
 
-  console.log(state);
+  const toggleEditModal = () => {
+    setState({ ...state, edit: !state.edit });
+  };
 
   const toggle = () => {
     setState({ ...state, open: !state.open });
+  };
+
+  const submitEditFormData = (data: any) => {
+    // setState({ ...state, edit: false });
+    let updatedEvent = new EventItem(
+      state.event.id,
+      data.title,
+      data.description,
+      state.event.startDate,
+      state.event.endDate
+    );
+    dispatch(updateEventById(JSON.stringify(updatedEvent)));
+    setState({ ...state, event: updatedEvent, edit: false });
   };
 
   useEffect(() => {}, [state]);
@@ -42,23 +64,34 @@ export const EventBox: React.FC<EventItem> = (event) => {
               margin: "0",
             }}
           >
-            {state.title}
+            {state.event.title}
           </p>
           <p style={{ fontWeight: "normal", margin: 0 }}>
-            Upcoming at : {new Date(Number(state.end)).toDateString()}
+            Upcoming at : {new Date(Number(state.event.endDate)).toDateString()}
           </p>
         </div>
-        <button
-          style={{
-            padding: "0.5rem",
-            border: "1px solid skyblue",
-            fontSize: "1rem",
-            height: "fit-content",
-          }}
-          onClick={toggle}
-        >
-          Toggle
-        </button>
+        <div style={{ display: "flex", width: "fit-content" }}>
+          <div
+            style={{
+              padding: "0.5rem",
+              cursor: "pointer",
+            }}
+            onClick={toggleEditModal}
+          >
+            <MdModeEdit />
+          </div>
+          <div
+            style={{
+              padding: "0.5rem",
+              cursor: "pointer",
+            }}
+            onClick={toggle}
+          >
+            <VscTriangleDown
+              style={{ transform: state.open ? "" : "rotateZ(180deg)" }}
+            />
+          </div>
+        </div>
       </div>
 
       {state.open && (
@@ -71,7 +104,61 @@ export const EventBox: React.FC<EventItem> = (event) => {
             marginTop: "6px",
           }}
         >
-          {state.desc}
+          {state.event.description}
+        </div>
+      )}
+
+      {state.edit && (
+        <div
+          style={{
+            zIndex: 100,
+            position: "fixed",
+            top: "0",
+            left: "0",
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "transparent",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backdropFilter: "brightness(0.2)",
+          }}
+        >
+          <div
+            style={{
+              width: "80%",
+              minHeight: "480px",
+              backgroundColor: "white",
+              borderRadius: "10px",
+              color: "black",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontSize: "calc(1rem + 0.5vw)",
+                  marginLeft: "1rem",
+                  fontWeight: "bold",
+                }}
+              >
+                EDIT DATA
+              </p>
+              <div
+                style={{ padding: "1rem", color: "black", cursor: "pointer" }}
+                onClick={toggleEditModal}
+              >
+                <IoClose style={{ transform: "scale(2)" }} />
+              </div>
+            </div>
+
+            <EditEventForm event={event} submitForm={submitEditFormData} />
+          </div>
         </div>
       )}
     </div>
