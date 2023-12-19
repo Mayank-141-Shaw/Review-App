@@ -9,11 +9,11 @@ import { useDispatch } from "react-redux";
 import { updateEventById } from "../data/eventSlice";
 import { AppDispatch } from "../data/store";
 
-export interface EventBox {
+export interface EventBoxProps {
   event: EventItem;
 }
 
-export const EventBox = ({ event }: EventBox) => {
+export const EventBox: React.FC<EventBoxProps> = ({ event }) => {
   const dispatch: AppDispatch = useDispatch();
 
   const [state, setState] = useState({
@@ -66,9 +66,6 @@ export const EventBox = ({ event }: EventBox) => {
           >
             {state.event.title}
           </p>
-          <p style={{ fontWeight: "normal", margin: 0 }}>
-            Upcoming at : {new Date(Number(state.event.endDate)).toDateString()}
-          </p>
         </div>
         <div style={{ display: "flex", width: "fit-content" }}>
           <div
@@ -93,6 +90,11 @@ export const EventBox = ({ event }: EventBox) => {
           </div>
         </div>
       </div>
+
+      <p style={{ fontWeight: "normal", margin: 0 }}>
+        Upcoming at : {new Date(Number(state.event.endDate)).toDateString()},{" "}
+        {new Date(Number(state.event.endDate)).toLocaleTimeString()}
+      </p>
 
       {state.open && (
         <div
@@ -127,7 +129,6 @@ export const EventBox = ({ event }: EventBox) => {
           <div
             style={{
               width: "80%",
-              minHeight: "480px",
               backgroundColor: "white",
               borderRadius: "10px",
               color: "black",

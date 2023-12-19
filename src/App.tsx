@@ -2,6 +2,7 @@ import "./App.css";
 import { useSelector } from "react-redux";
 import { RootState } from "./data/store";
 import { EventBox } from "./components/EventBox";
+import { AddEvent } from "./components/AddEvent";
 
 function App() {
   const events = useSelector((state: RootState) => state.event.value);
@@ -13,6 +14,7 @@ function App() {
       {events.map((item, index) => (
         <EventBox key={index} event={JSON.parse(item)} />
       ))}
+      <AddEvent />
     </div>
   );
 }

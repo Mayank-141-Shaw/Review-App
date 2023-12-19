@@ -35,29 +35,51 @@ export const EditEventForm = ({ event, submitForm }: EditEventFormProps) => {
   useEffect(() => {}, [formState]);
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <h6>Title</h6>
-          <input
-            type="text"
-            name="title"
-            value={formState.title}
-            onChange={handleChange}
-          />
-        </div>
+    <form
+      style={{
+        padding: "1rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+      }}
+      onSubmit={handleSubmit}
+    >
+      <div
+        style={{
+          padding: "0.2rem",
+          backgroundColor: "skyblue",
+        }}
+      >
+        <p style={{ margin: "0", fontWeight: "bold", fontSize: "1.2rem" }}>
+          Title
+        </p>
+        <input
+          type="text"
+          name="title"
+          value={formState.title}
+          onChange={handleChange}
+          style={{ padding: "4px", width: "-webkit-fill-available" }}
+        />
+      </div>
 
-        <div>
-          <h6>Description</h6>
-          <textarea
-            name="description"
-            value={formState.description}
-            onChange={handleTextAreaChange}
-          />
-        </div>
+      <div
+        style={{
+          padding: "0.2rem",
+          backgroundColor: "skyblue",
+        }}
+      >
+        <p style={{ margin: "0", fontWeight: "bold", fontSize: "1.2rem" }}>
+          Description
+        </p>
+        <textarea
+          name="description"
+          value={formState.description}
+          onChange={handleTextAreaChange}
+          style={{ padding: "4px", width: "-webkit-fill-available" }}
+        />
+      </div>
 
-        <button style={{}}>Submit</button>
-      </form>
-    </>
+      <button style={{}}>Submit</button>
+    </form>
   );
 };
